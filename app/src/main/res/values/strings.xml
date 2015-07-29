@@ -14,5 +14,13 @@
     <string name="p2p_off_warning">Enable P2P from action bar button above or system settings</string>
     <string name="group_owner_text">"Am I the Group Owner? "</string>
     <string name="label_me">ME</string>
-    <string name="label_peers">PEERS</string>
+    <string name="label_peers_config">AUTOCONFIG AWAREPOINT DEVICES</string>
+    <string name="btn_getconfig">GET CONFIG</string>
+    <string name="btn_push">PUSH</string>
+    <string name="btn_push_all">PUSH ALL DEVICES</string>
+    <string name="appliance_name">Appliance Name:</string>
+    <string name="appliance_user">User Name:</string>
+    <string name="appliance_pass">Password:</string>
+    <string name="appliance_wifi_cert">WiFi Certificate:</string>
+
 </resources>

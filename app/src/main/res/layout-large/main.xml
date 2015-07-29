@@ -4,15 +4,28 @@
     android:layout_height="fill_parent">
     <LinearLayout android:layout_width="match_parent" android:id="@+id/linearLayout1"
         android:layout_height="fill_parent" android:orientation="horizontal">
-        <fragment class="com.awarepoint.wifidirect.DeviceDetailFragment"
-            android:id="@+id/frag_list" android:layout_width="@dimen/tablet_list_width"
+
+        <fragment class="com.awarepoint.wifidirect.DeviceListFragment"
+            android:id="@+id/frag_list" android:layout_width="676dp"
             android:layout_height="match_parent">
             <!-- Preview: layout=@layout/row_devices -->
         </fragment>
-        <fragment class="com.awarepoint.wifidirect.DeviceDetailFragment"
-            android:id="@+id/frag_detail" android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <!-- Preview: layout=@layout/device_detail -->
-        </fragment>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+            <fragment
+                android:layout_width="match_parent"
+                android:layout_height="215dp"
+                android:id="@+id/frag_config">
+            </fragment>
+            <fragment class="com.awarepoint.wifidirect.DeviceDetailFragment"
+                android:id="@+id/frag_detail" android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <!-- Preview: layout=@layout/device_detail -->
+            </fragment>
+
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

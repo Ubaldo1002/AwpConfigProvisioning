@@ -27,6 +27,7 @@ import android.net.wifi.p2p.WifiP2pManager;
 import android.net.wifi.p2p.WifiP2pManager.ActionListener;
 import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.net.wifi.p2p.WifiP2pManager.ChannelListener;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -38,6 +39,16 @@ import android.widget.Toast;
 
 import com.awarepoint.wifidirect.DeviceListFragment.DeviceActionListener;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import handler.ConfigRetriever;
+import handler.ServiceHandler;
+
 /**
  * An activity that uses WiFi Direct APIs to discover and connect with available
  * devices. WiFi Direct APIs are asynchronous and rely on callback mechanism
@@ -47,6 +58,11 @@ import com.awarepoint.wifidirect.DeviceListFragment.DeviceActionListener;
  */
 public class MainActivity extends Activity implements ChannelListener, DeviceActionListener {
 
+    ServiceHandler sh = new ServiceHandler();
+    ConfigRetriever configRetriever = new ConfigRetriever();
+
+    private static String url_beacons = "http://10.6.5.68:8080/WSRestDatabase/register/do_getbeacons";
+
     public static final String TAG = "wifidirect";
     private WifiP2pManager manager;
     private boolean isWifiP2pEnabled = false;
@@ -55,6 +71,12 @@ public class MainActivity extends Activity implements ChannelListener, DeviceAct
     private final IntentFilter intentFilter = new IntentFilter();
     private Channel channel;
     private BroadcastReceiver receiver = null;
+
+    private String jsonStrBeacons;
+    private List<String>  beaconIds;
+
+    boolean hasBeacons=false;
+
 
     /**
      * @param isWifiP2pEnabled the isWifiP2pEnabled to set
@@ -77,12 +99,16 @@ public class MainActivity extends Activity implements ChannelListener, DeviceAct
 
         manager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         channel = manager.initialize(this, getMainLooper(), null);
+
+        new getBeacons().execute();
+
     }
 
     /** register the BroadcastReceiver with the intent values to be matched */
     @Override
     public void onResume() {
         super.onResume();
+
         receiver = new WiFiDirectBroadcastReceiver(manager, channel, this);
         registerReceiver(receiver, intentFilter);
     }
@@ -251,4 +277,88 @@ public class MainActivity extends Activity implements ChannelListener, DeviceAct
         }
 
     }
+
+
+    protected String openJsonFile(String fileName) {
+
+        String jsonFile = "";
+        try {
+            FileInputStream fis = openFileInput(fileName);
+            InputStreamReader InputRead = new InputStreamReader(fis);
+
+            char[] inputBuffer= new char[10000];
+
+            int charRead;
+            String readstring;
+            while ((charRead=InputRead.read(inputBuffer))>0) {
+                // char to string conversion
+                readstring=String.copyValueOf(inputBuffer,0,charRead);
+                jsonFile +=readstring;
+            }
+
+            InputRead.close();
+
+        } catch (IOException err) {
+            Log.d("openJsonFile", "openJsonFile IO Error: "+ err.getMessage());
+        } catch (Exception err) {
+            Log.d("openJsonFile", "openJsonFile Error: " + err.getMessage());
+        }
+
+        return jsonFile;
+    }
+
+
+    private class getBeacons extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            jsonStrBeacons =  openJsonFile("beacons.json");
+
+            if(jsonStrBeacons.isEmpty()) {
+                hasBeacons = false;
+                // Making a request to url and getting response
+                jsonStrBeacons = sh.makeServiceCall(url_beacons, ServiceHandler.GET);
+            }else{
+                hasBeacons = true;
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            if (!jsonStrBeacons.isEmpty()) {
+
+                Log.d("JSON Beacons Response: ", jsonStrBeacons);
+                beaconIds = configRetriever.parseBeaconLocations(jsonStrBeacons);
+            } else {
+                Log.e("ServiceHandler", "Couldn't get any beacon data from the url");
+            }
+
+            if (beaconIds.size() > 0) {
+                if(!hasBeacons) {
+                    saveJson_Beacons();
+                }
+            }
+        }
+
+        protected void saveJson_Beacons() {
+
+            String fileName = "beacons.json";
+            FileOutputStream outputStream = null;
+            try {
+                outputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
+                outputStream.write(jsonStrBeacons.getBytes());
+                outputStream.close();
+            } catch (Exception e) {
+                Log.e("saveJson_Beacons()", e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
 }
