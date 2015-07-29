@@ -124,18 +124,7 @@ public class MainActivity extends Activity implements ChannelListener, DeviceAct
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.atn_direct_enable:
-                if (manager != null && channel != null) {
 
-                    // Since this is the system wireless settings activity, it's
-                    // not going to send us a result. We will be notified by
-                    // WiFiDeviceBroadcastReceiver instead.
-
-                    startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
-                } else {
-                    Log.e(TAG, "channel or manager is null");
-                }
-                return true;
 
             case R.id.atn_direct_discover:
                 if (!isWifiP2pEnabled) {
