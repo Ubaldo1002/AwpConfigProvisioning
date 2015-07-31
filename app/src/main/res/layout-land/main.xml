@@ -24,18 +24,20 @@
             android:orientation="vertical">
 
             <fragment
-                class="com.awarepoint.wifidirect.DeviceListFragment"
-                android:id="@+id/frag_list"
-                android:layout_width="192dp"
-                android:layout_height="100dp">
-                <!-- Preview: layout=@layout/row_devices -->
+                android:layout_width="match_parent"
+                android:layout_height="115dp"
+                android:id="@+id/frag_config"
+                class="com.awarepoint.wifidirect.ConfigApplianceFragment">
             </fragment>
 
             <fragment
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/frag_config">
+                class="com.awarepoint.wifidirect.DeviceListFragment"
+                android:id="@+id/frag_list"
+                android:layout_width="192dp"
+                android:layout_height="match_parent">
+                <!-- Preview: layout=@layout/row_devices -->
             </fragment>
+
         </LinearLayout>
 
     </LinearLayout>

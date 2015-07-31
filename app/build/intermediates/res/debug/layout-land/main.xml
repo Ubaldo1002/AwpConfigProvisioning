@@ -9,20 +9,38 @@
         android:id="@+id/linearLayout1"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+
         <fragment
-            class="com.example.android.wifidirect.DeviceListFragment"
-            android:id="@+id/frag_list"
-            android:layout_width="@dimen/phone_list_height"
-            android:layout_height="match_parent">
-            <!-- Preview: layout=@layout/row_devices -->
-        </fragment>
-        <fragment
-            class="com.example.android.wifidirect.DeviceDetailFragment"
+            class="com.awarepoint.wifidirect.DeviceDetailFragment"
             android:id="@+id/frag_detail"
-            android:layout_width="match_parent"
+            android:layout_width="504dp"
             android:layout_height="match_parent">
             <!-- Preview: layout=@layout/device_detail -->
         </fragment>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <fragment
+                android:layout_width="match_parent"
+                android:layout_height="115dp"
+                android:id="@+id/frag_config"
+                class="com.awarepoint.wifidirect.ConfigApplianceFragment">
+            </fragment>
+
+            <fragment
+                class="com.awarepoint.wifidirect.DeviceListFragment"
+                android:id="@+id/frag_list"
+                android:layout_width="192dp"
+                android:layout_height="match_parent">
+                <!-- Preview: layout=@layout/row_devices -->
+            </fragment>
+
+        </LinearLayout>
+
     </LinearLayout>
+
 </LinearLayout>
 <!-- From: file:/C:/BleProjects/AwpConfigProvision/app/src/main/res/layout-land/main.xml -->

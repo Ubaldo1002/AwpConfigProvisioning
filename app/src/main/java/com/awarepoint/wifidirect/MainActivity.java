@@ -19,7 +19,6 @@ package com.awarepoint.wifidirect;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
@@ -29,7 +28,6 @@ import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.net.wifi.p2p.WifiP2pManager.ChannelListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,11 +37,12 @@ import android.widget.Toast;
 
 import com.awarepoint.wifidirect.DeviceListFragment.DeviceActionListener;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
 import handler.ConfigRetriever;
@@ -100,7 +99,7 @@ public class MainActivity extends Activity implements ChannelListener, DeviceAct
         manager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         channel = manager.initialize(this, getMainLooper(), null);
 
-        new getBeacons().execute();
+      //  new getBeacons().execute();
 
     }
 
@@ -190,12 +189,18 @@ public class MainActivity extends Activity implements ChannelListener, DeviceAct
     }
 
     @Override
-    public void connect(WifiP2pConfig config) {
+    public void connect(final WifiP2pConfig config) {
         manager.connect(channel, config, new ActionListener() {
 
             @Override
             public void onSuccess() {
                 // WiFiDirectBroadcastReceiver will notify us. Ignore for now.
+
+                /*Context context = getApplicationContext();
+                SocketBroadcast senddata = new SocketBroadcast(context);
+                senddata.thread.start();
+                */
+
             }
 
             @Override
@@ -203,6 +208,7 @@ public class MainActivity extends Activity implements ChannelListener, DeviceAct
                 Toast.makeText(MainActivity.this, "Connect failed. Retry.",
                         Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 

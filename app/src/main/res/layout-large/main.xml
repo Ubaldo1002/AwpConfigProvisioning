@@ -18,7 +18,8 @@
             <fragment
                 android:layout_width="match_parent"
                 android:layout_height="215dp"
-                android:id="@+id/frag_config">
+                android:id="@+id/frag_config"
+                class="com.awarepoint.wifidirect.ConfigApplianceFragment">
             </fragment>
             <fragment class="com.awarepoint.wifidirect.DeviceDetailFragment"
                 android:id="@+id/frag_detail" android:layout_width="match_parent"

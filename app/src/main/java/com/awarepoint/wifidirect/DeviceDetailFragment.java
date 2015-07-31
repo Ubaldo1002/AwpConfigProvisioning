@@ -17,10 +17,13 @@
 package com.awarepoint.wifidirect;
 
 import android.app.Fragment;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.DhcpInfo;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
@@ -42,6 +45,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -57,7 +61,7 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
     private WifiP2pInfo info;
     ProgressDialog progressDialog = null;
 
-    @Override
+     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
@@ -85,7 +89,7 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
 //                                ((DeviceActionListener) getActivity()).cancelDisconnect();
 //                            }
 //                        }
-                        );
+                );
                 ((DeviceActionListener) getActivity()).connect(config);
 
             }
@@ -107,9 +111,16 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
                     public void onClick(View v) {
                         // Allow user to pick an image from Gallery or other
                         // registered apps
+                        /*URI01 send Image
                         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                         intent.setType("image/*");
                         startActivityForResult(intent, CHOOSE_FILE_RESULT_CODE);
+                        */
+
+                        SocketBroadcast sendData = new SocketBroadcast(mContentView.getContext(), info);
+                        sendData.thread.start();
+
+
                     }
                 });
 
@@ -136,6 +147,7 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
 
     @Override
     public void onConnectionInfoAvailable(final WifiP2pInfo info) {
+
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
@@ -152,9 +164,10 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
         view = (TextView) mContentView.findViewById(R.id.device_info);
         view.setText("Group Owner IP - " + info.groupOwnerAddress.getHostAddress());
 
+        InetAddress address = info.groupOwnerAddress;
+
         // After the group negotiation, we assign the group owner as the file
-        // server. The file server is single threaded, single connection server
-        // socket.
+        // server. The file server is single threaded, single connection server socket.
         if (info.groupFormed && info.isGroupOwner) {
             new FileServerAsyncTask(getActivity(), mContentView.findViewById(R.id.status_text))
                     .execute();
@@ -189,7 +202,7 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
      * Clears the UI fields after a disconnect or direct mode disable operation.
      */
     public void resetViews() {
-        mContentView.findViewById(R.id.btn_connect).setVisibility(View.VISIBLE);
+         mContentView.findViewById(R.id.btn_connect).setVisibility(View.VISIBLE);
         TextView view = (TextView) mContentView.findViewById(R.id.device_address);
         view.setText(R.string.empty);
         view = (TextView) mContentView.findViewById(R.id.device_info);
@@ -199,7 +212,7 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
         view = (TextView) mContentView.findViewById(R.id.status_text);
         view.setText(R.string.empty);
         mContentView.findViewById(R.id.btn_start_client).setVisibility(View.GONE);
-        this.getView().setVisibility(View.GONE);
+        //this.getView().setVisibility(View.GONE);
     }
 
     /**
@@ -223,6 +236,8 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
         @Override
         protected String doInBackground(Void... params) {
             try {
+               // sendMessage("HOLA");
+
                 ServerSocket serverSocket = new ServerSocket(8988);
                 Log.d(MainActivity.TAG, "Server: Socket opened");
                 Socket client = serverSocket.accept();
@@ -241,7 +256,12 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
                 copyFile(inputstream, new FileOutputStream(f));
                 serverSocket.close();
                 return f.getAbsolutePath();
+
             } catch (IOException e) {
+                Log.e(MainActivity.TAG, e.getMessage());
+                return null;
+
+            } catch (Exception e) {
                 Log.e(MainActivity.TAG, e.getMessage());
                 return null;
             }
@@ -271,7 +291,6 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
         protected void onPreExecute() {
             statusText.setText("Opening a server socket");
         }
-
     }
 
     public static boolean copyFile(InputStream inputStream, OutputStream out) {
@@ -286,7 +305,7 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
             out.close();
             inputStream.close();
             long endTime=System.currentTimeMillis()-startTime;
-            Log.v("","Time taken to transfer all bytes is : "+endTime);
+            Log.v("", "Time taken to transfer all bytes is : " + endTime);
             
         } catch (IOException e) {
             Log.d(MainActivity.TAG, e.toString());
@@ -294,5 +313,6 @@ public class DeviceDetailFragment extends Fragment implements ConnectionInfoList
         }
         return true;
     }
+
 
 }

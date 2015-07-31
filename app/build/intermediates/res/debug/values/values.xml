@@ -6,11 +6,20 @@
     <color name="status_bar_color">#FF000000</color>
     <!-- From: file:/C:/BleProjects/AwpConfigProvision/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
-    <dimen name="phone_list_height">200dp</dimen>
-    <dimen name="tablet_list_width">300dp</dimen>
+    <dimen name="phone_list_height">300dp</dimen>
+    <dimen name="phone_list_width">300dp</dimen>
+    <dimen name="tablet_list_height">300dp</dimen>
+    <dimen name="tablet_list_width">800dp</dimen>
     <!-- From: file:/C:/BleProjects/AwpConfigProvision/app/src/main/res/values/strings.xml -->
     <eat-comment/>
-    <string name="app_name">WiFi Direct</string>
+    <string name="app_name">Awp Provisioning</string>
+    <string name="appliance_name">Appliance Name:</string>
+    <string name="appliance_pass">Password:</string>
+    <string name="appliance_user">User Name:</string>
+    <string name="appliance_wifi_cert">WiFi Certificate:</string>
+    <string name="btn_getconfig">GET CONFIG</string>
+    <string name="btn_push">PUSH</string>
+    <string name="btn_push_all">PUSH ALL DEVICES</string>
     <string name="client_text">This device will act as a client. Click on Gallery button to pick a local(stored) file</string>
     <string name="connect_peer_button">Connect</string>
     <string name="disconnect_peer_button">Disconnect</string>
@@ -18,10 +27,10 @@
     <string name="empty"/>
     <string name="empty_message">No devices found. Turn on P2P and perform discovery from the Action Bar</string>
     <string name="enable_p2p_button">P2P On/Off</string>
-    <string name="get_file_button">Launch Gallery</string>
+    <string name="get_file_button">Send ASCII String</string>
     <string name="group_owner_text">"Am I the Group Owner? "</string>
     <string name="label_me">ME</string>
-    <string name="label_peers">PEERS</string>
+    <string name="label_peers_config">AUTOCONFIG AWAREPOINT DEVICES</string>
     <string name="no">no</string>
     <string name="p2p_off_warning">Enable P2P from action bar button above or system settings</string>
     <string name="yes">yes</string>

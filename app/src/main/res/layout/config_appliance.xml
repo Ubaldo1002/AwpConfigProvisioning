@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_getconfig"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="@string/btn_getconfig"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="30dp">
+        <TextView
+            android:id="@+id/txt_appliance_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/appliance_name"/>
+        <TextView
+            android:id="@+id/txt_appliance_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/appliance_user"/>
+        <TextView
+            android:id="@+id/txt_appliance_pass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/appliance_pass"/>
+        <TextView
+            android:id="@+id/txt_appliance_wifi_cert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/appliance_wifi_cert"/>
+
+    </LinearLayout>
+
+</LinearLayout>

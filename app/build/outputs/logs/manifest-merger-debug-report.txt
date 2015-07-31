@@ -50,6 +50,10 @@ uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
 ADDED from AndroidManifest.xml:12:5
 	android:name
 		ADDED from AndroidManifest.xml:12:22
+uses-permission#android.permission.CHANGE_WIFI_MULTICAST_STATE
+ADDED from AndroidManifest.xml:13:5
+	android:name
+		ADDED from AndroidManifest.xml:13:22
 uses-feature#android.hardware.wifi.direct
 ADDED from AndroidManifest.xml:15:5
 	android:required

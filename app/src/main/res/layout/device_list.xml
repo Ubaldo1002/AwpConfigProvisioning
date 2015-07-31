@@ -58,46 +58,6 @@
         android:gravity="center_vertical"
         android:background="@android:color/holo_blue_light" />
 
-    <!-- Config Information -->
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:orientation="horizontal"
-        android:layout_height="?android:attr/listPreferredItemHeight"
-        android:background="?android:attr/activatedBackgroundIndicator"
-        android:padding="3dip">
-
-        <Button
-            android:layout_width="160dp"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:text="@string/btn_getconfig"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/appliance_name"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/appliance_user"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/appliance_pass"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/appliance_wifi_cert"/>
-
-        </LinearLayout>
-    </LinearLayout>
-
     <!-- WIFI Devices Information -->
     <View
         android:layout_width="fill_parent"
